@@ -1,4 +1,4 @@
-import { test } from '../../src/helpers/fixtures/fixture';
+import { test } from '../helpers/fixtures/fixture';
 const urlApi = 'https://apichallenges.eviltester.com';
 
 export class PostSecretService {

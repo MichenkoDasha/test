@@ -205,16 +205,6 @@ test('16 - Изменить todo на неправильный', { tag: '@put' }
     expect(updatedTodo.status).toBe(400);
 });
 
-test('23- Удаление todo', { tag: '@delete' }, async ({ request }) => {
-    const api = new Api(request);
-    const getTodo = await api.todos.get(token);
-    console.log(getTodo);
-    let todoId = getTodo.body.todos[0].id;
-    const deleteTodo = await api.deleteTodo.deleteTodo(token, todoId);
-    console.log(deleteTodo);
-    expect(deleteTodo).toBe(200);
-});
-
 test('17 - частичное изменение todo', { tag: '@post' }, async ({ request }) => {
 
     const api = new Api(request);
@@ -275,6 +265,19 @@ test('20 - Изменить todo title.', { tag: '@put' }, async ({ request }) =
     expect(updatedTodo.status).toBe(200);
     expect(updatedTodo.body.title).toContain('Update title');
     expect(updatedTodo.body.id).toBe(createdTodo.body.id);
+});
+
+test('23- Удаление todo', { tag: '@delete' }, async ({ request }) => {
+    const api = new Api(request);
+    const createdTodo = await api.postTodo.postTodo(token, new todoBuilder()
+        .withTitle()
+        .withDoneStatus()
+        .withDescription()
+        .build());
+        console.log(createdTodo);
+    const deleteTodo = await api.deleteTodo.deleteTodo(token, createdTodo.body.id);
+    console.log(deleteTodo);
+    expect(deleteTodo).toBe(200);
 });
 
 test('25 - Получить список todos в формате xml', { tag: '@get' }, async ({ request }) => {
