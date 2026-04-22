@@ -7,3 +7,8 @@ export * from './postTodo.service';
 export * from './deleteTodo.service';
 export * from './headTodo.service';
 export * from './putTodo.service';
+export * from './updateTodo.service';
+export * from './deleteHeartbeat.service';
+export * from './patchHeartbeat.service';
+export * from './getHearbeat.servise';
+export * from './postSecret.service';

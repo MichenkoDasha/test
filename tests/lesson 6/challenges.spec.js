@@ -13,7 +13,7 @@ test.beforeAll('Получить токен доступа', async ({ request })
     expect(token.length).toEqual(36);
 });
 
-test('02 - Получить список заданий', async ({ request }) => {
+test('02 - Получить список заданий', { tag: '@get' }, async ({ request }) => {
     const api = new Api(request);
     let response = await api.challenges.get(token);
     let body = response;

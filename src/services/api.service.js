@@ -6,7 +6,14 @@ import { ChallengerService,
     PostTodoService, 
     DeleteService,
     HeadToDoService,
-    PutTodoService
+    PutTodoService,
+    UpdateToDoService,
+    GetXmlService,
+    PostTodoXmlService,
+    DeleteHeartbeatService,
+    PatchHeartbeatService,
+    GetHeartbeatService,
+    PostSecretService
 } from './index';
 
 export class Api {
@@ -21,5 +28,12 @@ export class Api {
         this.deleteTodo = new DeleteService(request);
         this.headTodo = new HeadToDoService(request);
         this.putTodo = new PutTodoService(request);
+        this.updateTodo = new UpdateToDoService(request);
+        this.getXml = new GetXmlService(request);
+        this.postXml = new PostTodoXmlService(request);
+        this.deleteHearbeat = new DeleteHeartbeatService(request);
+        this.patchHearbeat = new PatchHeartbeatService(request);
+        this.getHeartbeat = new GetHeartbeatService(request);
+        this.postSecret = new PostSecretService(request);
     }
 }

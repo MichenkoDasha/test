@@ -1,13 +1,13 @@
 import { expect } from '@playwright/test';
 import { test } from '../../src/helpers/fixtures/fixture';
-import { todoBuilder } from '../../src/helpers/builders';
+import { todoBuilder, todoXmlBuilder } from '../../src/helpers/builders/index';
 import { Api } from '../../src/services/api.service';
 import fs from 'fs';
 
-const urlApi = 'https://apichallenges.eviltester.com/';
+//const urlApi = 'https://apichallenges.eviltester.com/';
 const token = process.env.AUTH_TOKEN || JSON.parse(fs.readFileSync('auth-token.json', 'utf-8')).token;
 
-test('03 - Получить список todos', async ({ request }) => {
+test('03 - Получить список todos', { tag: '@get' }, async ({ request }) => {
 
     const api = new Api(request);
     let response = await api.todos.get(token);
@@ -15,14 +15,14 @@ test('03 - Получить список todos', async ({ request }) => {
 
 });
 
-test('04 - неправильный запрос', async ({ request }) => {
+test('04 - неправильный запрос', { tag: '@get' }, async ({ request }) => {
 
     const api = new Api(request);
     const result = await api.todo.getWithError(token);
     expect(result).toBe(404);
 });
 
-test('05 - Получить информацию о конкретном todo', async ({ request }) => {
+test('05 - Получить информацию о конкретном todo', { tag: '@get' }, async ({ request }) => {
 
     const api = new Api(request);
 
@@ -40,7 +40,7 @@ test('05 - Получить информацию о конкретном todo', 
     expect(todoItem).toBe(createdTodo.description);
 });
 
-test('06 - получение удаленного todo', async ({ request }) => {
+test('06 - получение удаленного todo', { tag: '@get' }, async ({ request }) => {
 
     const api = new Api(request);
     // Создаем новый todo
@@ -58,7 +58,7 @@ test('06 - получение удаленного todo', async ({ request }) =>
     });
 });
 
-test('07 - поиск выполненных todos', async ({ request }) => {
+test('07 - поиск выполненных todos', { tag: '@get' }, async ({ request }) => {
     const api = new Api(request);
 
     const createdTodo = await api.postTodo.postTodo(token, new todoBuilder()
@@ -89,7 +89,7 @@ test('07 - поиск выполненных todos', async ({ request }) => {
 
 });*/
 
-test('09 - Создать todo', async ({ request }) => {
+test('09 - Создать todo', { tag: '@post' }, async ({ request }) => {
     const api = new Api(request);
     const createdTodo = await api.postTodo.postTodo(token, new todoBuilder()
         .withTitle()
@@ -104,7 +104,7 @@ test('09 - Создать todo', async ({ request }) => {
 
 });
 
-test('10 - Создать todo c невалидным параметром doneStatus', async ({ request }) => {
+test('10 - Создать todo c невалидным параметром doneStatus', { tag: '@post' }, async ({ request }) => {
 
     const api = new Api(request);
     const createdTodo = await api.postTodo.postTodo(token, new todoBuilder()
@@ -119,7 +119,7 @@ test('10 - Создать todo c невалидным параметром doneS
     });
 });
 
-test('11 - Создать todo, c длинным параметром title ', async ({ request }) => {
+test('11 - Создать todo, c длинным параметром title ', { tag: '@post' }, async ({ request }) => {
 
     const api = new Api(request);
     const createdTodo = await api.postTodo.postTodo(token, new todoBuilder()
@@ -133,7 +133,7 @@ test('11 - Создать todo, c длинным параметром title ', a
     });
 });
 
-test('12 - Создать todo, c длинным параметром Description ', async ({ request }) => {
+test('12 - Создать todo, c длинным параметром Description ', { tag: '@post' }, async ({ request }) => {
 
     const api = new Api(request);
     const createdTodo = await api.postTodo.postTodo(token, new todoBuilder()
@@ -147,7 +147,7 @@ test('12 - Создать todo, c длинным параметром Descriptio
     });
 });
 
-test('13 - Создать todo, c максимально допустимыми параметрами title и Description ', async ({ request }) => {
+test('13 - Создать todo, c максимально допустимыми параметрами title и Description ', { tag: '@post' }, async ({ request }) => {
 
     const api = new Api(request);
     const createdTodo = await api.postTodo.postTodo(token, new todoBuilder()
@@ -160,7 +160,7 @@ test('13 - Создать todo, c максимально допустимыми 
     expect(createdTodo.body.description).toContain("descriptio");
 });
 
-test('14 - Создать todo, c огромным описанием задания ', async ({ request }) => {
+test('14 - Создать todo, c огромным описанием задания ', { tag: '@post' }, async ({ request }) => {
 
     const api = new Api(request);
     const createdTodo = await api.postTodo.postTodo(token, new todoBuilder()
@@ -174,7 +174,7 @@ test('14 - Создать todo, c огромным описанием задан
     });
 });
 
-test('15 - Создать todo, c лишним параметром priority', async ({ request }) => {
+test('15 - Создать todo, c лишним параметром priority', { tag: '@post' }, async ({ request }) => {
 
     const api = new Api(request);
     const createdTodo = await api.postTodo.postTodo(token, new todoBuilder()
@@ -189,7 +189,7 @@ test('15 - Создать todo, c лишним параметром priority', a
     });
 });
 
-test('16 - Изменить todo на неправильный', async ({ request }) => {
+test('16 - Изменить todo на неправильный', { tag: '@put' }, async ({ request }) => {
 
     const api = new Api(request);
     const createdTodo = await api.postTodo.postTodo(token, new todoBuilder()
@@ -205,7 +205,7 @@ test('16 - Изменить todo на неправильный', async ({ reques
     expect(updatedTodo.status).toBe(400);
 });
 
-test('23- Удаление todo', async ({ request }) => {
+test('23- Удаление todo', { tag: '@delete' }, async ({ request }) => {
     const api = new Api(request);
     const getTodo = await api.todos.get(token);
     console.log(getTodo);
@@ -213,4 +213,158 @@ test('23- Удаление todo', async ({ request }) => {
     const deleteTodo = await api.deleteTodo.deleteTodo(token, todoId);
     console.log(deleteTodo);
     expect(deleteTodo).toBe(200);
-})
+});
+
+test('17 - частичное изменение todo', { tag: '@post' }, async ({ request }) => {
+
+    const api = new Api(request);
+    const createdTodo = await api.postTodo.postTodo(token, new todoBuilder()
+        .withTitle()
+        .withDoneStatus()
+        .withDescription()
+        .build());
+    const updateTodo = await api.updateTodo.updateTodo(token, createdTodo.body.id, { title: 'Update title' })
+    expect(updateTodo.status).toBe(200);
+    expect(updateTodo.body.title).toBe("Update title");
+    expect(updateTodo.body.doneStatus).toBe(createdTodo.body.doneStatus);
+    expect(updateTodo.body.description).toBe(createdTodo.body.description);
+});
+
+test('18- Изменение несуществующий todo ', { tag: '@post' }, async ({ request }) => {
+    const api = new Api(request);
+    const getTodo = await api.todos.get(token);
+    const todoId = getTodo.body.todos[0].id;
+    const deleteTodo = await api.deleteTodo.deleteTodo(token, todoId);
+    const updateTodo = await api.updateTodo.updateTodo(token, todoId, { title: 'Update title' })
+    expect(updateTodo.status).toBe(404);
+    expect(updateTodo.body.errorMessages).toContain(`No such todo entity instance with id == ${todoId} found`);
+});
+
+test('19 - Изменить todo полностью.', { tag: '@put' }, async ({ request }) => {
+
+    const api = new Api(request);
+    const createdTodo = await api.postTodo.postTodo(token, new todoBuilder()
+        .withTitle()
+        .withDoneStatus()
+        .withDescription()
+        .build());
+    const updatedTodo = await api.putTodo.putTodo(token, createdTodo.body.id, {
+
+        title: 'Update title',
+        doneStatus: true,
+        description: 'Update description'
+    })
+    expect(updatedTodo.status).toBe(200);
+    expect(updatedTodo.body.title).toContain('Update title');
+    expect(updatedTodo.body.doneStatus).toBe(true);
+    expect(updatedTodo.body.description).toContain('Update description');
+    expect(updatedTodo.body.id).toBe(createdTodo.body.id);
+});
+
+test('20 - Изменить todo title.', { tag: '@put' }, async ({ request }) => {
+
+    const api = new Api(request);
+    const createdTodo = await api.postTodo.postTodo(token, new todoBuilder()
+        .withTitle()
+        .withDoneStatus()
+        .withDescription()
+        .build());
+    const updatedTodo = await api.putTodo.putTodo(token, createdTodo.body.id, {
+        title: 'Update title'
+    })
+    expect(updatedTodo.status).toBe(200);
+    expect(updatedTodo.body.title).toContain('Update title');
+    expect(updatedTodo.body.id).toBe(createdTodo.body.id);
+});
+
+test('25 - Получить список todos в формате xml', { tag: '@get' }, async ({ request }) => {
+
+    const api = new Api(request);
+    let response = await api.getXml.get(token);
+    console.log(response);
+    expect(response.headers['content-type']).toContain('application/xml');
+    expect(response.body).toContain('<todos>');
+    expect(response.body).toContain('</todos>');
+    expect(response.body).toContain('<todo>');
+    expect(response.body).toContain('</todo>');
+    expect(response.body).toContain('<id>');
+    expect(response.body).toContain('<title>');
+    expect(response.body).toContain('<doneStatus>');
+    expect(response.body).toContain('<description>');
+});
+
+test('26 - Получить список todos в формате json', { tag: '@get' }, async ({ request }) => {
+
+    const api = new Api(request);
+    let response = await api.todos.get(token);
+    expect(response.headers['content-type']).toContain('application/json');
+    expect(typeof response.body).toBe('object');
+    expect(response.body).toHaveProperty('todos');
+    expect(response.body.todos).toBeInstanceOf(Array);
+
+});
+
+test('31 - Создать todo в формате xml', { tag: '@post' }, async ({ request }) => {
+    const api = new Api(request);
+    const createdTodo = await api.postXml.postTodoXml(token, new todoXmlBuilder()
+        .withTitle()
+        .withDoneStatus()
+        .withDescription()
+        .build());
+    expect(createdTodo.status).toBe(201)
+    expect(createdTodo.headers['content-type']).toContain('application/xml');
+    expect(createdTodo.body).toContain('<todo>');
+    expect(createdTodo.body).toContain('<doneStatus>');
+    expect(createdTodo.body).toContain('<description>');
+    expect(createdTodo.body).toContain('</description>');
+    expect(createdTodo.body).toContain('<id>');
+    expect(createdTodo.body).toContain('</id>');
+    expect(createdTodo.body).toContain('<title>');
+    expect(createdTodo.body).toContain('</title>');
+    expect(createdTodo.body).toContain('</todo>');
+
+});
+
+test('32 - Создать todo в формате json', { tag: '@post' }, async ({ request }) => {
+    const api = new Api(request);
+    const createdTodo = await api.postTodo.postTodo(token, new todoBuilder()
+        .withTitle()
+        .withDoneStatus()
+        .withDescription()
+        .build());
+    expect(createdTodo.status).toBe(201)
+    expect(createdTodo.headers['content-type']).toContain('application/json');
+    expect(typeof createdTodo.body).toBe('object');
+    expect(createdTodo.body).toHaveProperty('id');
+    expect(createdTodo.body).toHaveProperty('title');
+    expect(createdTodo.body).toHaveProperty('doneStatus');
+    expect(createdTodo.body).toHaveProperty('description');
+
+});
+
+test('33 - Создать todo в неверном формате', { tag: '@post' }, async ({ request }) => {
+    const api = new Api(request);
+    const createdTodo = await api.postTodo.postTodo(token, new todoXmlBuilder()
+        .withTitle()
+        .withDoneStatus()
+        .withDescription()
+        .build());
+    console.log(createdTodo);
+    expect(createdTodo.status).toBe(415)
+    expect(createdTodo.body).toEqual({
+        errorMessages: ['Unsupported Content Type - application/octet-stream']
+    });
+});
+
+test('58- Удаление всех todo', { tag: '@delete' }, async ({ request }) => {
+    const api = new Api(request);
+    const getTodo = await api.todos.get(token);
+    const todos = getTodo.body.todos;
+
+    for (const todo of todos) {
+        const deleteStatus = await api.deleteTodo.deleteTodo(token, todo.id);
+        expect(deleteStatus).toBe(200);
+    }
+    const getAfterDelete = await api.todos.get(token);
+    expect(getAfterDelete.body.todos.length).toBe(0);
+});

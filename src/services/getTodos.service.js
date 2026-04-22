@@ -11,9 +11,10 @@ export class GetToDoService {
             const response = await this.request.get(`${urlApi}/todos`, {
                 headers: {
                     'X-CHALLENGER': token,
+                    'Accept': 'application/json'
                 },
                 params: params,
-        
+
             });
             const h = response.headers();
             const r = await response.json();
@@ -21,9 +22,34 @@ export class GetToDoService {
             console.log(link);
             return {
                 body: r,
-                //headers: h
+                headers: h
             };
         })
     };
 
+}
+export class GetXmlService {
+    constructor(request) {
+        this.request = request;
+    }
+    async get(token, params = {}) {
+
+        return test.step('GET /todos', async () => {
+            const getXml = await this.request.get(`${urlApi}/todos`, {
+                headers: {
+                    'X-CHALLENGER': token,
+                    'Accept': 'application/xml'
+                },
+                params: params,
+
+            });
+            const link = `${urlApi}/gui/challenges/${token}`;
+            console.log(link);
+            return {
+                status: getXml.status(),
+                headers: getXml.headers(),
+                body: await getXml.text()
+            };
+        })
+    };
 }

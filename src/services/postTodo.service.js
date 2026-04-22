@@ -11,6 +11,7 @@ export class PostTodoService {
             const response = await this.request.post(`${urlApi}/todos`, {
                 headers: {
                     'X-CHALLENGER': token,
+                    'Accept': 'application/json'
                 },
                  data: todoData,
             });
@@ -19,7 +20,35 @@ export class PostTodoService {
             console.log(link);
             return {
                 status: response.status(),
-                body: bodyTodo
+                body: bodyTodo,
+                headers: response.headers()
+            };
+        
+        })
+    };
+};
+
+export class PostTodoXmlService {
+    constructor(request) {
+        this.request = request;
+    }
+    async postTodoXml(token, xmlData) {
+
+        return test.step('POST /todos', async () => {
+            const postXml = await this.request.post(`${urlApi}/todos`, {
+                headers: {
+                    'X-CHALLENGER': token,
+                    'Content-Type': 'application/xml',
+                    'Accept': 'application/xml'
+                },
+                 data: xmlData,
+            });
+            const link = `${urlApi}/gui/challenges/${token}`;
+            console.log(link);
+            return {
+                status: postXml.status(),
+                headers: postXml.headers(),
+                body: await postXml.text()
             };
         
         })
