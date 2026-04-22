@@ -1,0 +1,21 @@
+{
+  "name": "guru",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:ui": "npx playwright test --ui",
+    "debug": "npx playwright test --debug"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^25.3.0",
+    "allure-commandline": "^2.38.1",
+    "allure-playwright": "^3.7.1"
+  }
+}
