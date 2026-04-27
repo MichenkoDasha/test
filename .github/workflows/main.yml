@@ -3,7 +3,7 @@ name: guru gof autotests
 on: 
   push:
     branches: 
-      - main
+      - master
 # ручной запуск
   workflow_dispatch:
 
