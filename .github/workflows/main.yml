@@ -21,6 +21,14 @@ jobs:
         run: npx playwright install --with-deps
       - name: Устанавливаем allure 3
         run: npm add allure
+      - name: Create global setup file
+        run: |
+          cat > tests/global.setup.js << 'EOF'
+          async function globalSetup() {
+            console.log('Global setup running in CI');
+          }
+          export default globalSetup;
+          EOF
       - name: Run Playwright tests
         run: npx playwright test
       - name: Генерирую отчет allure 3 в один файл
