@@ -1,4 +1,4 @@
-name: pw6 gof autotests
+name: guru gof autotests
 # Когда запускаем
 on: 
   push:
