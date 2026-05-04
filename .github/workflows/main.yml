@@ -27,6 +27,8 @@ jobs:
          echo '{"token": "${{ secrets.AUTH_TOKEN }}"}' > tests/global.setup.js
       - name: Run Playwright tests
         run: npx playwright test
+        env:
+         AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
       - name: list
         run: ls
       - name: Генерирую отчет allure 3 в один файл
