@@ -21,10 +21,6 @@ jobs:
         run: npx playwright install --with-deps
       - name: Устанавливаем allure 3
         run: npm add allure
-      - name: Create global.setup.js from secret
-        run: |
-         mkdir -p tests
-         echo '{"token": "${{ secrets.AUTH_TOKEN }}"}' > tests/global.setup.js
       - name: Run Playwright tests
         run: npx playwright test
         env:
