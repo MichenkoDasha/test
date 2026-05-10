@@ -1,0 +1,18 @@
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+tests/lesson 1/
+tests/lesson 5/
+tests/lesson 4/
+src/pages/
+src/helpers/builders/*
+!src/helpers/builders/index.js
+!src/helpers/builders/todo.builder.js
+!src/helpers/builders/todoXml.builder.js
+!src/pages/app.page.js
+auth-token.json
